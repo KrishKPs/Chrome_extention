@@ -1,0 +1,219 @@
+/*
+ * sidepanel.css — styles for the side panel (the options page reuses them).
+ * Colors are defined once as variables, with a dark-mode set below.
+ */
+
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1c1f24;
+  --muted: #6a717d;
+  --border: #e3e6ea;
+  --accent: #4f46e5;
+  --accent-text: #ffffff;
+  --good: #15803d;
+  --amber: #b45309;
+  --bad: #dc2626;
+  --chip-good: #e8f5ec;
+  --chip-bad: #fdf1e7;
+  --radius: 12px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15171b;
+    --card: #1e2127;
+    --text: #e8eaed;
+    --muted: #9aa1ac;
+    --border: #2e323a;
+    --accent: #818cf8;
+    --accent-text: #0f1115;
+    --good: #4ade80;
+    --amber: #fbbf24;
+    --bad: #f87171;
+    --chip-good: #1c3326;
+    --chip-bad: #3a2717;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+[hidden] { display: none !important; }
+
+/* minmax(0, 1fr) lets columns shrink; otherwise one long unbreakable line
+   (like the job URL) stretches the whole panel sideways. */
+main { padding: 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+main > section { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+}
+.brand { font-weight: 600; }
+.accent { color: var(--accent); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.center { text-align: center; }
+
+h2 { font-size: 16px; margin: 0 0 6px; }
+h3 { font-size: 13px; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+h3.good { color: var(--good); }
+h3.warn { color: var(--bad); }
+p { margin: 0 0 12px; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; margin: 0; }
+
+button {
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+button.primary:hover { filter: brightness(1.08); }
+.icon-button { padding: 2px 8px; font-size: 16px; border: none; }
+
+.card > button.primary { width: 100%; }
+
+.checklist { padding-left: 18px; margin: 0 0 14px; }
+.checklist li.done { color: var(--muted); text-decoration: line-through; }
+
+/* Loading spinner */
+.spinner {
+  width: 28px;
+  height: 28px;
+  margin: 8px auto 12px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+/* Job card */
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.job-card { border-top: 3px solid var(--accent); }
+.job-card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.badge {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  white-space: nowrap;
+}
+#job-link {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--accent);
+  margin: 4px 0 10px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.job-description {
+  white-space: pre-line;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  overflow-wrap: anywhere;
+}
+/* Collapsed: show the first few lines, fading out at the bottom. */
+.job-description.collapsed {
+  max-height: 7.5em;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+.link-button {
+  border: none;
+  background: none;
+  padding: 6px 0 0;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Score gauge: a ring drawn with an SVG circle. The script sets
+   stroke-dashoffset so the colored part covers score% of the ring. */
+.score-card { display: flex; align-items: center; gap: 14px; }
+.gauge { width: 84px; height: 84px; flex: none; }
+.gauge circle { fill: none; stroke-width: 10; }
+.gauge-track { stroke: var(--border); }
+.gauge-fill {
+  stroke: var(--gauge-color, var(--accent));
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+  transition: stroke-dashoffset 0.6s ease;
+}
+.gauge text { font-size: 30px; font-weight: 700; fill: var(--text); }
+
+.note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 4px;
+}
+
+.plain-list { margin: 0 0 8px; padding-left: 18px; }
+.plain-list:empty { display: none; }
+.plain-list li { margin-bottom: 2px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; }
+#matched-keywords .chip { background: var(--chip-good); }
+#missing-keywords .chip { background: var(--chip-bad); }
+
+.suggestions { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.suggestions label { display: flex; gap: 8px; align-items: flex-start; cursor: pointer; }
+.suggestions input { margin-top: 3px; accent-color: var(--accent); }
+.suggestions .why { display: block; font-size: 12px; color: var(--muted); }
+.suggestions input:checked + span { opacity: 0.55; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 340px) { .two-col { grid-template-columns: 1fr; } }
+
+.actions { display: flex; gap: 8px; }
+.actions button { flex: 1; }

@@ -1,0 +1,70 @@
+<!doctype html>
+<!--
+  options.html — settings page: API key + resume text.
+  Reuses the side panel's stylesheet so both look like one product.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resume Match — Settings</title>
+  <link rel="stylesheet" href="../sidepanel/sidepanel.css">
+  <style>
+    main { max-width: 720px; margin: 24px auto; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input, textarea {
+      width: 100%;
+      font: inherit;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+    }
+    textarea { min-height: 360px; resize: vertical; font-size: 13px; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 6px; }
+    .key-row { display: flex; gap: 8px; }
+    .key-row input { flex: 1; }
+    .status { font-size: 13px; color: var(--good); }
+    .status.error { color: var(--bad); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Resume <span class="accent">↔</span> Job Match — Settings</span>
+  </header>
+
+  <main>
+    <form id="settings-form" class="card">
+      <label for="api-key">Anthropic API key</label>
+      <div class="key-row">
+        <input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+        <button type="button" id="toggle-key">Show</button>
+      </div>
+      <p class="muted small" style="margin: 6px 0 20px">
+        Get one at <a href="https://platform.claude.com/settings/keys" target="_blank" rel="noopener">platform.claude.com</a>.
+        It's stored only in this browser and sent only to api.anthropic.com.
+      </p>
+
+      <label for="resume">Your resume</label>
+      <div class="row" style="margin: 0 0 8px">
+        <span class="muted small">Upload a PDF, or paste the text below.</span>
+        <button type="button" id="upload-button">Upload PDF…</button>
+        <input type="file" id="pdf-input" accept="application/pdf,.pdf" hidden>
+      </div>
+      <textarea id="resume" placeholder="Paste your resume here…"></textarea>
+      <div class="row">
+        <span class="muted small" id="resume-count"></span>
+        <span class="muted small" id="resume-saved"></span>
+      </div>
+
+      <div class="row" style="margin-top: 20px">
+        <span class="status" id="status" role="status"></span>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </main>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

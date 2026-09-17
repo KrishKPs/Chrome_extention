@@ -1,0 +1,120 @@
+<!doctype html>
+<!--
+  sidepanel.html — markup for the docked panel.
+
+  Every "state" (setup, ready, loading, error, results) is a <section>; the
+  script shows one at a time by toggling the `hidden` attribute. No inline
+  scripts: Manifest V3 forbids them.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resume Match</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Resume <span class="accent">↔</span> Job Match</span>
+    <button class="icon-button" id="settings-button" title="Settings" aria-label="Settings">⚙</button>
+  </header>
+
+  <main>
+    <!-- Job being analyzed. Not a state of its own: it stays visible above the
+         loading, error, and results states. -->
+    <article id="job-card" class="card job-card" hidden>
+      <div class="job-card-top">
+        <span class="eyebrow">Job posting</span>
+        <span class="badge" id="job-source"></span>
+      </div>
+      <a id="job-link" target="_blank" rel="noopener noreferrer" hidden></a>
+      <div class="job-description collapsed" id="job-description"></div>
+      <button class="link-button" id="job-toggle" aria-expanded="false" aria-controls="job-description">Show full description</button>
+    </article>
+
+    <!-- 1. Setup needed -->
+    <section id="state-setup" class="card" hidden>
+      <h2>Let's get you set up</h2>
+      <p>Before analyzing a job, add:</p>
+      <ul class="checklist">
+        <li id="setup-key">An Anthropic API key</li>
+        <li id="setup-resume">Your resume text</li>
+      </ul>
+      <button class="primary" id="open-settings">Open settings</button>
+    </section>
+
+    <!-- 2. Ready -->
+    <section id="state-ready" hidden>
+      <div class="card">
+        <h2>Ready when you are</h2>
+        <p class="muted">Open a job posting, then click Analyze. To pick the text yourself, highlight the job description first.</p>
+        <button class="primary" id="analyze-button">Analyze this job</button>
+      </div>
+    </section>
+
+    <!-- 3. Loading -->
+    <section id="state-loading" class="card center" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="loading-text" aria-live="polite">Reading the posting…</p>
+    </section>
+
+    <!-- 4. Error -->
+    <section id="state-error" class="card" hidden>
+      <h2>Something went wrong</h2>
+      <p id="error-text"></p>
+      <button class="primary" id="retry-button">Try again</button>
+    </section>
+
+    <!-- 5. Results -->
+    <section id="state-results" hidden>
+      <div class="card score-card">
+        <svg class="gauge" viewBox="0 0 120 120" role="img" aria-labelledby="score-number">
+          <circle class="gauge-track" cx="60" cy="60" r="52"></circle>
+          <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="52"></circle>
+          <text x="60" y="68" text-anchor="middle" id="score-number">0</text>
+        </svg>
+        <div>
+          <span class="eyebrow">Your match</span>
+          <h2 id="verdict"></h2>
+        </div>
+      </div>
+      <p class="note" id="notice" hidden></p>
+
+      <div class="card">
+        <h3 class="good">✓ You have</h3>
+        <ul id="matched-skills" class="plain-list"></ul>
+        <div id="matched-keywords" class="chips"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="warn">△ Missing</h3>
+        <ul id="missing-skills" class="plain-list"></ul>
+        <div id="missing-keywords" class="chips"></div>
+      </div>
+
+      <div class="card">
+        <h3>Tailoring suggestions</h3>
+        <ul id="suggestions" class="suggestions"></ul>
+      </div>
+
+      <div class="card two-col">
+        <div>
+          <h3>Strengths</h3>
+          <ul id="strengths" class="plain-list"></ul>
+        </div>
+        <div>
+          <h3>Risks</h3>
+          <ul id="risks" class="plain-list"></ul>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="reanalyze-button">Analyze this page</button>
+        <button id="copy-button">Copy summary</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

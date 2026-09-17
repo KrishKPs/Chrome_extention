@@ -1,0 +1,36 @@
+# Never commit secrets. The extension stores the API key in chrome.storage,
+# not in files, but guard against local test files anyway.
+.env
+.env.*
+*.key
+secrets*
+
+# OS / editor noise
+.DS_Store
+._*
+.vscode/
+*.zip
+*.crx
+*.pem
+
+# --- common ---
+# OS / editor
+.idea/
+.claude/settings.local.json
+
+# Secrets
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+*.log

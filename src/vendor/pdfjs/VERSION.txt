@@ -1,0 +1,5 @@
+pdfjs-dist 6.3.289 (Mozilla, Apache-2.0), copied unmodified from npm.
+Uses the legacy/ build: it polyfills very new JS (e.g. Math.sumPrecise)
+that not every Chrome version has yet.
+Upgrade: npm pack pdfjs-dist@<version>, copy legacy/build/pdf.min.mjs +
+legacy/build/pdf.worker.min.mjs + LICENSE.
