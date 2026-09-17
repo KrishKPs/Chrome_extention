@@ -45,7 +45,7 @@ export const API = {
   FALLBACK_BETA: "server-side-fallback-2026-07-01",
 };
 
-// Character budgets (see CLAUDE.md §7.4). Roughly 4 characters ≈ 1 token.
+// Character budgets. Roughly 4 characters ≈ 1 token.
 export const LIMITS = {
   MAX_JOB_CHARS: 12000,
   MAX_RESUME_CHARS: 8000,

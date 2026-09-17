@@ -5,7 +5,7 @@
  * touching networking code. This file must NOT make network calls.
  */
 
-// JSON Schema for AnalysisResult (CLAUDE.md §8.2). We send it to the API as a
+// JSON Schema for AnalysisResult. We send it to the API as a
 // "structured output" format, so the model is constrained to produce exactly
 // this shape. That's much more reliable than asking nicely in the prompt.
 // (Structured outputs require every object to list all its keys in

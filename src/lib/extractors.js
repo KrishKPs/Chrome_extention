@@ -7,7 +7,7 @@
  * self-contained: no imports, and no variables from outside its own body.
  * It must NOT make network calls or see any secrets.
  *
- * Strategy (CLAUDE.md §7.2), first match wins:
+ * Strategy, first match wins:
  *   1. Text the user highlighted ("Analyze selection").
  *   2. A known container selector for the current job site.
  *   3. Any element whose id/class mentions "description".

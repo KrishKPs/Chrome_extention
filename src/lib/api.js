@@ -5,7 +5,7 @@
  * web page. It must NOT touch the DOM or log the resume or the key.
  *
  * We use plain `fetch` rather than the official SDK because the project has no
- * bundler (CLAUDE.md §3), and Manifest V3 doesn't allow loading library code
+ * bundler, and Manifest V3 doesn't allow loading library code
  * from a CDN.
  */
 
@@ -18,7 +18,7 @@ import { ANALYSIS_SCHEMA, SYSTEM_PROMPT, buildUserMessage } from "./prompt.js";
 export async function callLLM(apiKey, resumeText, job) {
   const body = buildRequestBody(resumeText, job);
 
-  // CLAUDE.md §8.3: if the answer is malformed, try once more before giving up.
+  // if the answer is malformed, try once more before giving up.
   let result;
   for (let attempt = 1; attempt <= 2; attempt++) {
     result = await sendOnce(apiKey, body);

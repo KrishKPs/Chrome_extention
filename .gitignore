@@ -34,3 +34,11 @@ venv/
 node_modules/
 dist/
 *.log
+
+# AI assistant notes (local only)
+CLAUDE.md
+**/CLAUDE.md
+**/[Ff]rontend.md
+SKILL.md
+.claude/
+*.tsbuildinfo
